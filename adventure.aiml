@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml>
+
+    <!-- Simple text adventure, in Italian -->
+
+    <category>
+        <pattern>FIGHT DEFAULT</pattern>
+        <template>
+            <random>
+                <li>Non essere arrabbiato</li>
+                <li>Con chi ce l'hai?</li>
+                <li>La violenza non è la soluzione</li>
+            </random>
+        </template>
+    </category>
+
+    <category>
+        <pattern>TAKE DEFAULT</pattern>
+        <template>
+            <random>
+                <li>Cosa vorresti prendere?</li>
+                <li>Non puoi prendere ciò che vorresti</li>
+            </random>
+        </template>
+    </category>
+
+    <category>
+        <pattern>GO DEFAULT</pattern>
+        <template>
+            <random>
+                <li>Non penso sia possibile.</li>
+                <li>Come vorresti arrivarci?</li>
+                <li>Non puoi andare lì!</li>
+            </random>
+        </template>
+    </category>
+
+    <category>
+        <pattern>COMBATTI *</pattern>
+        <template>
+            <srai>FIGHT DEFAULT</srai>
+        </template>
+    </category>
+
+    <category>
+        <pattern>ATTACCA *</pattern>
+        <template>
+            <srai>FIGHT DEFAULT</srai>
+        </template>
+    </category>
+
+    <category>
+        <pattern>AGGREDISCI *</pattern>
+        <template>
+            <srai>FIGHT DEFAULT</srai>
+        </template>
+    </category>
+
+    <category>
+        <pattern>APRI LA *</pattern>
+        <template>
+            <srai>APRI <star /></srai>
+        </template>
+    </category>
+
+    <category>
+        <pattern>APRI IL *</pattern>
+        <template>
+            <srai>APRI <star /></srai>
+        </template>
+    </category>
+
+    <category>
+        <pattern>PRENDI LA *</pattern>
+        <template>
+            <srai>PRENDI <star /></srai>
+        </template>
+    </category>
+
+    <category>
+        <pattern>PRENDI IL *</pattern>
+        <template>
+            <srai>PRENDI <star /></srai>
+        </template>
+    </category>
+
+    <category>
+        <pattern>PRENDI *</pattern>
+        <template>
+            <srai>TAKE DEFAULT</srai>
+        </template>
+    </category>
+
+    <category>
+        <pattern>RACCOGLI *</pattern>
+        <template>
+            <srai>TAKE DEFAULT</srai>
+        </template>
+    </category>
+
+    <category>
+        <pattern>VAI *</pattern>
+        <template>
+            <srai>GO DEFAULT</srai>
+        </template>
+    </category>
+
+    <category>
+        <pattern>VAI VERSO *</pattern>
+        <template>
+            <srai>VAI <star /></srai>
+        </template>
+    </category>
+
+    <category>
+        <pattern>VAI A *</pattern>
+        <template>
+            <srai>VAI <star /></srai>
+        </template>
+    </category>
+
+    <!-- Init -->
+    <category>
+        <pattern>*</pattern>
+        <template>Vuoi iniziare a giocare?</template>
+    </category>
+
+    <category>
+        <pattern>SI</pattern>
+        <that>VUOI INIZIARE A GIOCARE</that>
+        <template>
+            <think><set name="topic">A</set></think>
+            Benissimo. Ti trovi in una prateria.
+        </template>
+    </category>
+
+    <category>
+        <pattern>NO</pattern>
+        <that>VUOI INIZIARE A GIOCARE</that>
+        <template>
+            Allora ciao.
+        </template>
+    </category>
+
+    <!-- Prateria -->
+    <topic name="A">
+        <category>
+            <pattern>VAI DESTRA</pattern>
+            <template>
+                <think><set name="topic">B</set></think>
+                Ti incammini lungo la strada a destra.
+            </template>
+        </category>
+        
+        <category>
+            <pattern>VAI SINISTRA</pattern>
+            <template>
+                <think><set name="topic">C</set></think>
+                Ti dirigi verso la casa.
+            </template>
+        </category>
+        
+        <category>
+            <pattern>*</pattern>
+            <template>Sei in una prateria. Alla tua destra c'è una strada, alla tua sinistra una casa.</template>
+        </category>
+    </topic>
+
+    <!-- Strada -->
+    <topic name="B">
+        <category>
+            <pattern>PRENDI CHIAVE</pattern>
+            <template>
+                <condition name="keyB">
+                    <li value="taken">Hai già preso la chiave.</li>
+                    <li>
+                        <think><set name="keyB">taken</set></think>
+                        Prendi la chiave.
+                    </li>
+                </condition>
+            </template>
+        </category>
+        
+        <category>
+            <pattern>VAI SINISTRA</pattern>
+            <template>
+                <think><set name="topic">A</set></think>
+                Ti incammini verso sinistra, fino a raggiungere una prateria.
+            </template>
+        </category>
+        
+        <category>
+            <pattern>*</pattern>
+            <template>Sei su una strada, ma è bloccata in tutte le direzioni, eccetto verso sinistra, dove si estende una prateria.
+            <condition name="keyB">
+                <li value="taken"></li>
+                <li>C'è una chiave per terra.</li>
+            </condition>
+            </template>
+        </category>
+    </topic>
+
+    <!-- Casa (esterno) -->
+    <topic name="C">
+        <category>
+            <pattern>USA CHIAVE * PORTA</pattern>
+            <template>
+                <srai>APRI PORTA</srai>
+            </template>
+        </category>
+        
+        <category>
+            <pattern>APRI PORTA</pattern>
+            <template>
+                <condition name="doorC">
+                    <li value="open">La porta è già aperta.</li>
+                    <li>
+                        <condition name="keyB">
+                            <li value="taken"><think><set name="doorC">open</set></think>Hai con te la chiave: la usi per aprire la porta.</li>
+                            <li>Impossibile. La porta è chiusa a chiave.</li>
+                        </condition>
+                    </li>
+                </condition>
+            </template>
+        </category>
+        
+        <category>
+            <pattern>CHIUDI PORTA</pattern>
+            <template>
+                <condition name="doorC">
+                    <li value="open">
+                        <think><set name="doorC">closed</set></think>
+                        Chiudi la porta.
+                    </li>
+                    <li>La porta è già chiusa.</li>
+                </condition>
+            </template>
+        </category>
+        
+        <category>
+            <pattern>VAI DESTRA</pattern>
+            <template>
+                <think><set name="topic">A</set></think>
+                Ti incammini verso destra, fino a raggiungere una prateria.
+            </template>
+        </category>
+        
+        <category>
+            <pattern>ENTER HOUSE DEFAULT</pattern>
+            <template>
+                <condition name="doorC">
+                    <li value="open">
+                        <think><set name="topic">D</set></think>
+                        Entri nella casa.
+                    </li>
+                    <li>Non puoi, la porta della casa è chiusa.</li>
+                </condition>
+            </template>
+        </category>
+        
+        <category>
+            <pattern>VAI SINISTRA</pattern>
+            <template><srai>ENTER HOUSE DEFAULT</srai></template>
+        </category>
+        
+        <category>
+            <pattern>ENTRA * CASA</pattern>
+            <template><srai>ENTER HOUSE DEFAULT</srai></template>
+        </category>
+        
+        <category>
+            <pattern>ENTRA * PORTA</pattern>
+            <template><srai>ENTER HOUSE DEFAULT</srai></template>
+        </category>
+        
+        <category>
+            <pattern>*</pattern>
+            <template>
+                Sei di fronte ad una casa.
+                <condition name="doorC">
+                    <li value="open">La porta è aperta.</li>
+                    <li>La porta è chiusa.</li>
+                </condition>
+                Una prateria si estende a destra.
+            </template>
+        </category>
+    </topic>
+
+    <!-- Casa (interno) -->
+    <topic name="D">
+        <category>
+            <pattern>*</pattern>
+            <template>
+                <think><set name="topic">MORTO</set></think>
+                Prima che tu possa fare alcunché, il tetto della casa crolla e ti cade addosso. Sei morto ingloriosamente.
+            </template>
+        </category>
+    </topic>
+
+    <!-- Morte -->
+    <topic name="MORTO">
+        <category>
+            <pattern>RICOMINCIAMO</pattern>
+            <template>
+                <think>
+                    <set name="keyB"></set>
+                    <set name="doorC"></set>
+                    <set name="topic"></set>
+                </think>
+                Ok. Non ti sei ancora stufato?
+            </template>
+        </category>
+        
+        <category>
+            <pattern>*</pattern>
+            <template>Sei morto, non parlo con i morti.</template>
+        </category>
+    </topic>
+
+</aiml>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml>
+
+    <!-- Here the topic is set -->
+    <category>
+        <pattern>LET US TALK ABOUT *</pattern>
+        <template>
+            <think><set name="topic"><star/></set></think>
+            Ok then, what do you want to know about <get name="topic" />?
+        </template>
+    </category>
+
+    <!-- Geography topic -->
+    <topic name="geography">
+        <category>
+            <pattern>*</pattern>
+            <template>
+                Well, I don't really know. You'd better try to use a map!
+            </template>
+        </category>
+
+        <category>
+            <pattern>MY FAVORITE COUNTRY IS *</pattern>
+            <template>
+                Good choice. <formal><star /></formal> is also my favorite one!
+            </template>
+        </category>
+    </topic>
+
+    <!-- Movie topic -->
+    <topic name="movies">
+        <category>
+            <pattern>*</pattern>
+            <template>Watching good movie refreshes our minds.</template>
+        </category>
+
+        <category>
+            <pattern>I LIKE WATCHING COMEDY</pattern>
+            <template>I like comedy movies too.</template>
+        </category>
+   </topic>
+
+</aiml>

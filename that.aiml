@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml>
+
+    <category>
+        <pattern>DO YOU LIKE JOKES</pattern>
+        <template>I LIKE JOKES</template>
+    </category>
+
+    <!-- Category with THAT match -->
+    <!-- Will always follow the conversation entry above -->
+    <category>
+        <pattern>_</pattern>
+        <that>I LIKE JOKES</that>
+        <template>
+            <random>
+                <li>LOL.</li>
+                <li>Hahahahaha!</li>
+                <li>Haha, that was funny.</li>
+                <li>LOL, good one!,</li>
+            </random>
+        </template>
+    </category>
+
+    <!-- The THATSTAR tag -->
+    <category>
+        <pattern>ASK ME ABOUT *</pattern>
+        <template>What is your favorite <star/>?</template>
+    </category>
+
+    <category>
+        <pattern>MY FAVORITE * IS *</pattern>
+        <template>Good for you pal!</template>
+    </category>
+    
+    <!-- This redirects to the category above, using THATSTAR -->
+    <category>
+        <pattern>*</pattern>
+        <that>WHAT IS YOUR FAVORITE *</that>
+        <template>
+            <srai>MY FAVORITE <thatstar/> IS <star/></srai>
+        </template>
+    </category>
+
+</aiml>

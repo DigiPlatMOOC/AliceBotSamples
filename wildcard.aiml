@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml>
+
+    <!-- This category has a higher priority than the following -->
+    <category>
+        <pattern>MY NAME IS _</pattern>
+        <template>Nice to meet you, <star />!</template>
+    </category>
+
+    <!-- This has a lower priority and will never match -->
+    <category>
+        <pattern>MY NAME IS *</pattern>
+        <template>Hi <star />, what a nice name!</template>
+    </category>
+
+    <!-- Multiple wildcards (indexed star tag) -->
+    <category>
+        <pattern>* IS *</pattern>
+        <template>Yep! <star index="1" /> is <star index="2"/>, I was just about to say that...</template>
+    </category>
+
+    <!-- Auto splitting -->
+    <!-- The first _ matches the first word, _ the following words -->
+    <!-- This nicely extracts the user's first name from the input phrase -->
+    <category>
+        <pattern>MY NAME IS _ _</pattern>
+        <template>Hi, <star index="1" />, nice to meet you!</template>
+    </category>
+
+</aiml>

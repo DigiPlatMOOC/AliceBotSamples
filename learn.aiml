@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml version="2.0">
+    
+    <!-- Using conversational variables (i.e., SET and GET) -->
+    <category>
+        <pattern>MY NAME IS *</pattern>
+        <template>
+            <think><set name="name"><star /></set></think>
+            I will remember that.
+        </template>
+    </category>
+
+    <category>
+        <pattern>WHAT IS MY NAME</pattern>
+        <template>
+            Your name is <get name="name" />.
+        </template>
+    </category>
+
+    <!-- Learning new categories with LEARN -->
+    <category>
+        <pattern>* IS *</pattern>
+        <template>
+            <think>
+                <learn>
+                    <category>
+                        <pattern>WHAT IS <eval><star index="1" /></eval></pattern>
+                        <template><eval><star index="1" /></eval> is <eval><star index="2" /></eval>, as you told me.</template>
+                    </category>
+                </learn>
+            </think>
+        </template>
+    </category>
+
+</aiml>
