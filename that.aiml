@@ -3,7 +3,7 @@
 
     <category>
         <pattern>DO YOU LIKE JOKES</pattern>
-        <template>I LIKE JOKES</template>
+        <template>I like jokes!</template>
     </category>
 
     <!-- Category with THAT match -->
@@ -31,7 +31,7 @@
         <pattern>MY FAVORITE * IS *</pattern>
         <template>Good for you pal!</template>
     </category>
-    
+
     <!-- This redirects to the category above, using THATSTAR -->
     <category>
         <pattern>*</pattern>
